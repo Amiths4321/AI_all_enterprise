@@ -1,0 +1,16 @@
+{
+  "retrieval": {
+    "top_k": 10
+  },
+  "reranking": {
+    "top_n": 3,
+    "model": "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  },
+  "evidence": {
+    "model": "all-MiniLM-L6-v2",
+    "threshold": 0.6
+  },
+  "generation": {
+    "timeout": 120
+  }
+}

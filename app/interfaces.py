@@ -9,6 +9,8 @@ class Retriever(ABC):
         self,
         question: str,
         top_k: int = 10,
+        filters: dict | None = None,
+        strategy: str = "hybrid",
     ) -> list[dict[str, Any]]:
         pass
 

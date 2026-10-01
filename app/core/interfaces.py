@@ -1,13 +1,39 @@
 from abc import ABC, abstractmethod
 from typing import Any
+from abc import ABC, abstractmethod
+from typing import Any
+from abc import ABC, abstractmethod
 
+
+class GroundedGenerator(ABC):
+
+    @abstractmethod
+    def generate(
+        self,
+        question: str,
+        documents: list[dict],
+    ):
+        raise NotImplementedError
+        
+
+class DocumentRepository(ABC):
+
+    @abstractmethod
+    def get_all(self) -> list[dict[str, Any]]:
+        pass
+
+    @abstractmethod
+    def count(self) -> int:
+        pass
 
 class Retriever(ABC):
+
     @abstractmethod
     def retrieve(
         self,
         question: str,
         top_k: int = 10,
+        filters: dict | None = None,
     ) -> list[dict[str, Any]]:
         pass
 
@@ -48,5 +74,6 @@ class VectorSearcher(ABC):
         self,
         question: str,
         top_k: int = 10,
+        filters: dict | None = None,
     ) -> list[dict[str, Any]]:
         pass

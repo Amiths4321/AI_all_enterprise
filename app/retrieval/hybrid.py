@@ -6,34 +6,72 @@ from app.core.interfaces import Retriever, VectorSearcher
 
 
 class HybridRetriever(Retriever):
+
     def __init__(
         self,
-        documents,
+        documents: list[dict[str, Any]],
         vector_searcher: VectorSearcher,
     ):
         self.documents = documents
         self.vector_searcher = vector_searcher
 
-        tokenized_documents = [
-            self._tokenize(item["document"])
-            for item in documents
-        ]
-
-        self.bm25 = BM25Okapi(tokenized_documents)
-
     @staticmethod
     def _tokenize(text: str) -> list[str]:
         return text.lower().split()
+
+    @staticmethod
+    def _matches_filters(
+        item: dict[str, Any],
+        filters: dict | None,
+    ) -> bool:
+
+        if not filters:
+            return True
+
+        metadata = item.get(
+            "metadata",
+            {},
+        )
+
+        for key, expected in filters.items():
+
+            if expected is None:
+                continue
+
+            if metadata.get(key) != expected:
+                return False
+
+        return True
 
     def keyword_search(
         self,
         question: str,
         top_k: int = 10,
+        filters: dict | None = None,
     ) -> list[dict[str, Any]]:
 
-        query_tokens = self._tokenize(question)
+        eligible = [
+            item
+            for item in self.documents
+            if self._matches_filters(
+                item,
+                filters,
+            )
+        ]
 
-        scores = self.bm25.get_scores(query_tokens)
+        if not eligible:
+            return []
+
+        tokenized = [
+            self._tokenize(item["document"])
+            for item in eligible
+        ]
+
+        bm25 = BM25Okapi(tokenized)
+
+        scores = bm25.get_scores(
+            self._tokenize(question)
+        )
 
         ranked_indexes = sorted(
             range(len(scores)),
@@ -44,14 +82,20 @@ class HybridRetriever(Retriever):
         results = []
 
         for index in ranked_indexes[:top_k]:
-            candidate = self.documents[index]
+
+            item = eligible[index]
 
             results.append(
                 {
-                    "id": candidate["id"],
-                    "document": candidate["document"],
-                    "metadata": candidate.get("metadata", {}),
-                    "score": float(scores[index]),
+                    "id": item["id"],
+                    "document": item["document"],
+                    "metadata": item.get(
+                        "metadata",
+                        {},
+                    ),
+                    "score": float(
+                        scores[index]
+                    ),
                 }
             )
 
@@ -59,35 +103,18 @@ class HybridRetriever(Retriever):
 
     def reciprocal_rank_fusion(
         self,
-        vector_results: list[dict[str, Any]],
-        keyword_results: list[dict[str, Any]],
-        top_k: int = 10,
-        rrf_k: int = 60,
-    ) -> list[dict[str, Any]]:
+        vector_results,
+        keyword_results,
+        top_k=10,
+        rrf_k=60,
+    ):
 
-        combined: dict[str, dict[str, Any]] = {}
+        combined = {}
 
-        for rank, item in enumerate(vector_results, start=1):
-
-            document_id = item["id"]
-
-            if document_id not in combined:
-                combined[document_id] = {
-                    "id": document_id,
-                    "document": item["document"],
-                    "metadata": item.get("metadata", {}),
-                    "vector_rank": None,
-                    "keyword_rank": None,
-                    "rrf_score": 0.0,
-                }
-
-            combined[document_id]["vector_rank"] = rank
-
-            combined[document_id]["rrf_score"] += (
-                1 / (rrf_k + rank)
-            )
-
-        for rank, item in enumerate(keyword_results, start=1):
+        for rank, item in enumerate(
+            vector_results,
+            start=1,
+        ):
 
             document_id = item["id"]
 
@@ -95,40 +122,91 @@ class HybridRetriever(Retriever):
                 combined[document_id] = {
                     "id": document_id,
                     "document": item["document"],
-                    "metadata": item.get("metadata", {}),
+                    "metadata": item.get(
+                        "metadata",
+                        {},
+                    ),
                     "vector_rank": None,
                     "keyword_rank": None,
                     "rrf_score": 0.0,
                 }
 
-            combined[document_id]["keyword_rank"] = rank
+            combined[document_id][
+                "vector_rank"
+            ] = rank
 
-            combined[document_id]["rrf_score"] += (
-                1 / (rrf_k + rank)
-            )
+            combined[document_id][
+                "rrf_score"
+            ] += 1 / (rrf_k + rank)
 
-        results = sorted(
+        for rank, item in enumerate(
+            keyword_results,
+            start=1,
+        ):
+
+            document_id = item["id"]
+
+            if document_id not in combined:
+                combined[document_id] = {
+                    "id": document_id,
+                    "document": item["document"],
+                    "metadata": item.get(
+                        "metadata",
+                        {},
+                    ),
+                    "vector_rank": None,
+                    "keyword_rank": None,
+                    "rrf_score": 0.0,
+                }
+
+            combined[document_id][
+                "keyword_rank"
+            ] = rank
+
+            combined[document_id][
+                "rrf_score"
+            ] += 1 / (rrf_k + rank)
+
+        return sorted(
             combined.values(),
             key=lambda item: item["rrf_score"],
             reverse=True,
-        )
-
-        return results[:top_k]
+        )[:top_k]
 
     def retrieve(
         self,
         question: str,
         top_k: int = 10,
+        filters: dict | None = None,
+        strategy: str = "hybrid",
     ) -> list[dict[str, Any]]:
+
+        if strategy == "keyword":
+
+            return self.keyword_search(
+                question=question,
+                top_k=top_k,
+                filters=filters,
+            )
+
+        if strategy == "vector":
+
+            return self.vector_searcher.search(
+                question=question,
+                top_k=top_k,
+                filters=filters,
+            )
 
         keyword_results = self.keyword_search(
             question=question,
             top_k=top_k,
+            filters=filters,
         )
 
         vector_results = self.vector_searcher.search(
             question=question,
             top_k=top_k,
+            filters=filters,
         )
 
         return self.reciprocal_rank_fusion(

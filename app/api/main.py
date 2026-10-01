@@ -1,49 +1,14 @@
-from pathlib import Path
-
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException,Header
 
 from app.api.models import QueryRequest, QueryResponse
 from app.core.application import Application
-
-
-documents = [
-    {
-        "id": "hr-001",
-        "document": (
-            "Employees receive 20 days of annual leave "
-            "per calendar year."
-        ),
-        "metadata": {
-            "source": "hr_policy.txt",
-        },
-    },
-    {
-        "id": "hr-002",
-        "document": (
-            "Employees must submit annual leave requests "
-            "through the HR portal."
-        ),
-        "metadata": {
-            "source": "leave_process.txt",
-        },
-    },
-    {
-        "id": "benefits-001",
-        "document": (
-            "Employees receive health insurance coverage "
-            "under the company benefits program."
-        ),
-        "metadata": {
-            "source": "benefits.txt",
-        },
-    },
-]
-
+from app.core.dev_auth import DevelopmentAuthenticator
+from app.core.security import UserContext
 
 application = Application(
-    documents=documents,
     config_path="configs/development.json",
 )
+authenticator = DevelopmentAuthenticator()
 
 application.startup()
 
@@ -61,17 +26,52 @@ def health():
     }
 
 
-@app.post(
-    "/query",
-    response_model=QueryResponse,
-)
-def query(request: QueryRequest):
+@app.get("/ready")
+def ready():
 
-    rag_service = application.get_rag_service()
+    if not application.is_ready():
+        raise HTTPException(
+            status_code=503,
+            detail="Application is not ready.",
+        )
 
-    return rag_service.answer(
-        question=request.question,
-        required_evidence=request.required_evidence,
-        top_k=request.top_k,
-        top_n=request.top_n,
+    return {
+        "status": "ready",
+    }
+
+
+@app.post("/query")
+def query(
+    request: QueryRequest,
+    authorization: str | None = Header(default=None),
+):
+
+    if not authorization:
+        raise HTTPException(
+            status_code=401,
+            detail="Missing authorization token",
+        )
+
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authorization format",
+        )
+
+    token = authorization.removeprefix("Bearer ")
+
+    try:
+        identity = authenticator.authenticate(token)
+    except ValueError:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication token",
+        )
+
+    user = UserContext(
+        user_id=identity.user_id,
+        role=identity.role,
+        department=identity.department,
     )
+
+    # pass user into the secure RAG service

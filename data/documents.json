@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hr-001",
+    "document": "Employees receive 20 days of annual leave per calendar year.",
+    "metadata": {
+      "source": "hr_policy.txt",
+      "department": "HR",
+      "document_type": "policy",
+      "access_level": "employee",
+      "allowed_roles": ["employee", "manager"],
+      "year": 2026
+    }
+  },
+  {
+    "id": "hr-002",
+    "document": "Employees must submit annual leave requests through the HR portal.",
+    "metadata": {
+      "source": "leave_process.txt",
+      "department": "HR",
+      "document_type": "procedure",
+      "access_level": "employee",
+      "allowed_roles": ["employee", "manager"],
+      "year": 2026
+    }
+  },
+  {
+    "id": "finance-001",
+    "document": "The annual operating budget is reviewed by the finance leadership team.",
+    "metadata": {
+      "source": "finance_policy.txt",
+      "department": "Finance",
+      "document_type": "policy",
+      "access_level": "manager",
+      "allowed_roles": ["manager"],
+      "year": 2026
+    }
+  },
+  {
+    "id": "engineering-001",
+    "document": "Production deployments require an approved change request.",
+    "metadata": {
+      "source": "engineering_process.txt",
+      "department": "Engineering",
+      "document_type": "procedure",
+      "access_level": "employee",
+      "allowed_roles": ["employee", "manager"],
+      "year": 2026
+    }
+  }
+]

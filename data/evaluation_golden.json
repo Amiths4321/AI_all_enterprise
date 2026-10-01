@@ -1,0 +1,26 @@
+[
+  {
+    "id": "eval-001",
+    "question": "How many annual leave days do employees receive?",
+    "expected_document_ids": ["hr-001"],
+    "reference_answer": "Employees receive 20 days of annual leave per calendar year."
+  },
+  {
+    "id": "eval-002",
+    "question": "How do employees submit annual leave requests?",
+    "expected_document_ids": ["hr-002"],
+    "reference_answer": "Employees submit annual leave requests through the HR portal."
+  },
+  {
+    "id": "eval-003",
+    "question": "What is required for production deployments?",
+    "expected_document_ids": ["engineering-001"],
+    "reference_answer": "Production deployments require an approved change request."
+  },
+  {
+    "id": "eval-004",
+    "question": "Who reviews the annual operating budget?",
+    "expected_document_ids": ["finance-001"],
+    "reference_answer": "The finance leadership team reviews the annual operating budget."
+  }
+]

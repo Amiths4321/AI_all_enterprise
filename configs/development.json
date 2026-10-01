@@ -1,4 +1,9 @@
 {
+  "storage": {
+    "type": "chroma",
+    "path": "chroma_db",
+    "collection": "enterprise_documents"
+  },
   "retrieval": {
     "top_k": 10
   },

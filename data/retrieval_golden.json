@@ -1,0 +1,20 @@
+[
+  {
+    "question": "How many annual leave days do employees receive?",
+    "expected_document_ids": [
+      "hr-001"
+    ]
+  },
+  {
+    "question": "How do employees submit annual leave requests?",
+    "expected_document_ids": [
+      "hr-002"
+    ]
+  },
+  {
+    "question": "What is required for production deployments?",
+    "expected_document_ids": [
+      "engineering-001"
+    ]
+  }
+]

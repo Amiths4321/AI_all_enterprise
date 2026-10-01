@@ -1,44 +1,62 @@
-from typing import Any
-
 from sentence_transformers import CrossEncoder
 
-from app.core.interfaces import Reranker
 
+class CrossEncoderReranker:
 
-MODEL_NAME = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-
-
-class CrossEncoderReranker(Reranker):
-    def __init__(self, model_name: str = MODEL_NAME):
-        self.model = CrossEncoder(model_name)
+    def __init__(
+        self,
+        model_name=(
+            "cross-encoder/"
+            "ms-marco-MiniLM-L-6-v2"
+        ),
+    ):
+        self.model = CrossEncoder(
+            model_name
+        )
 
     def rerank(
         self,
-        question: str,
-        documents: list[dict[str, Any]],
-        top_n: int = 3,
-    ) -> list[dict[str, Any]]:
+        question,
+        documents,
+        top_n=3,
+    ):
 
         if not documents:
             return []
 
         pairs = [
-            (question, item["document"])
-            for item in documents
+            (
+                question,
+                document.get(
+                    "document",
+                    "",
+                ),
+            )
+            for document in documents
         ]
 
-        scores = self.model.predict(pairs)
+        scores = self.model.predict(
+            pairs,
+            batch_size=32,
+        )
 
-        results = []
+        ranked = []
 
-        for item, score in zip(documents, scores):
-            result = item.copy()
-            result["rerank_score"] = float(score)
-            results.append(result)
+        for document, score in zip(
+            documents,
+            scores,
+        ):
+            item = dict(document)
+            item["rerank_score"] = float(
+                score
+            )
+            ranked.append(item)
 
-        results.sort(
-            key=lambda item: item["rerank_score"],
+        ranked.sort(
+            key=lambda item: item[
+                "rerank_score"
+            ],
             reverse=True,
         )
 
-        return results[:top_n]
+        return ranked[:top_n]

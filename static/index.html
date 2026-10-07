@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enterprise RAG</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #answer {
+            margin-top: 25px;
+            white-space: pre-wrap;
+        }
+
+        .source {
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Enterprise RAG</h1>
+
+<textarea
+    id="question"
+    placeholder="Ask a question about the document..."
+></textarea>
+
+<br>
+
+<button onclick="askQuestion()">Ask</button>
+
+<div id="answer"></div>
+
+<div id="sources"></div>
+
+<script>
+let sessionId =
+    crypto.randomUUID();
+
+let chatHistory = [];
+let isGenerating = false;
+
+
+async function askQuestion() {
+
+    if (isGenerating) return;
+
+    const input = document.getElementById("question");
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    isGenerating = true;
+    input.value = "";
+
+    const answerElement =
+        document.getElementById("answer");
+
+    const sourcesElement =
+        document.getElementById("sources");
+
+    answerElement.textContent = "";
+    sourcesElement.replaceChildren();
+
+    let fullAnswer = "";
+    let completed = false;
+
+    try {
+
+        const response = await fetch("/chat/stream", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question,
+                history: chatHistory
+            })
+        });
+
+        if (!response.ok || !response.body) {
+            throw new Error(
+                `Request failed: ${response.status}`
+            );
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        let buffer = "";
+
+        function processLine(line) {
+
+            if (!line.trim()) return;
+
+            const event = JSON.parse(line);
+
+            if (event.type === "metadata") {
+
+                const heading =
+                    document.createElement("h2");
+
+                heading.textContent = "Sources";
+                sourcesElement.appendChild(heading);
+
+                for (const source of event.sources) {
+
+                    const div =
+                        document.createElement("div");
+
+                    div.className = "source";
+
+                    const title =
+                        document.createElement("strong");
+
+                    title.textContent =
+                        `Source ${source.rank}: ${source.parent_id}`;
+
+                    const details =
+                        document.createElement("p");
+
+                    details.textContent =
+                        `Distance: ${source.score.toFixed(4)} | ` +
+                        `Children matched: ${source.children_hit}`;
+
+                    const excerpt =
+                        document.createElement("p");
+
+                    excerpt.textContent =
+                        source.text.substring(0, 500);
+
+                    div.append(title, details, excerpt);
+                    sourcesElement.appendChild(div);
+                }
+            }
+
+            if (event.type === "token") {
+
+                fullAnswer += event.content;
+
+                answerElement.textContent =
+                    fullAnswer;
+            }
+
+            if (event.type === "done") {
+                completed = true;
+            }
+        }
+
+        while (true) {
+
+            const { value, done } =
+                await reader.read();
+
+            if (done) break;
+
+            buffer += decoder.decode(
+                value,
+                { stream: true }
+            );
+
+            const lines = buffer.split("\n");
+
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                processLine(line);
+            }
+        }
+
+        buffer += decoder.decode();
+
+        if (buffer.trim()) {
+            processLine(buffer);
+        }
+
+        if (!completed) {
+            throw new Error(
+                "Stream ended before completion."
+            );
+        }
+
+        // Save only successfully completed exchanges.
+        chatHistory.push(
+            ["user", question],
+            ["assistant", fullAnswer]
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        answerElement.textContent +=
+            "\n\nStreaming interrupted: " +
+            error.message;
+
+    } finally {
+
+        isGenerating = false;
+    }
+}
+
+async function askQuestion() {
+
+    const question =
+        document.getElementById("question").value.trim();
+
+    if (!question) {
+        return;
+    }
+
+    document.getElementById("answer").innerText =
+        "Thinking...";
+
+    document.getElementById("sources").innerHTML = "";
+
+    const response = await fetch("/ask", {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            question: question
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("answer").innerText =
+        data.answer;
+
+    const sources =
+        document.getElementById("sources");
+
+    sources.innerHTML = "<h2>Sources</h2>";
+
+    data.sources.forEach(source => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "source";
+
+        div.innerHTML = `
+            <strong>${source.parent_id}</strong>
+            <br>
+            Score: ${source.score.toFixed(4)}
+            <br>
+            Children matched: ${source.children_hit}
+            <p>${source.text.substring(0, 500)}...</p>
+        `;
+
+        sources.appendChild(div);
+    });
+}
+
+</script>
+
+</body>
+</html>

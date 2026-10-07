@@ -1,0 +1,24 @@
+[
+  {
+    "id": "qd-001",
+    "question": "How many annual leave days do employees receive?",
+    "expected_sub_questions": [
+      "How many annual leave days do employees receive?"
+    ]
+  },
+  {
+    "id": "qd-002",
+    "question": "What is the leave policy and how do employees submit requests?",
+    "expected_sub_questions": [
+      "What is the leave policy?",
+      "how do employees submit requests"
+    ]
+  },
+  {
+    "id": "qd-003",
+    "question": "What is required for production deployments?",
+    "expected_sub_questions": [
+      "What is required for production deployments?"
+    ]
+  }
+]

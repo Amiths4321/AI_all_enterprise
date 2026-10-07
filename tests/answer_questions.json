@@ -1,0 +1,23 @@
+
+[
+  {
+    "question": "What is the main purpose of this document?",
+    "reference_answer": "The handbook provides ready-to-use information and construction details to help architects and other building professionals develop construction drawings, specifications, and coordinated building details."
+  },
+  {
+    "question": "Who is this handbook intended for?",
+    "reference_answer": "It is intended for architects, interior designers, contractors, students, and other building professionals."
+  },
+  {
+    "question": "How can architects use the details in the handbook?",
+    "reference_answer": "Architects can use the details as ready-to-use information when producing construction drawings, developing custom details, writing specifications, and checking existing drawings."
+  },
+  {
+    "question": "What is included in a detail information package?",
+    "reference_answer": "A detail information package includes design guidelines, limitations, coordination information, likely failure points, and requirements for materials and installation."
+  },
+  {
+    "question": "What kind of information does the book provide?",
+    "reference_answer": "The book provides fundamental material data and information, coordinated written and illustrated details, and practical construction-detail information."
+  }
+]

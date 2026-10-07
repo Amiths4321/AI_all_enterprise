@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What is the author's favorite color?",
+    "expected": "abstain"
+  },
+  {
+    "question": "What is the price of this handbook?",
+    "expected": "abstain"
+  },
+  {
+    "question": "Who won the 2025 construction industry awards?",
+    "expected": "abstain"
+  },
+  {
+    "question": "What is the weather mentioned in the handbook today?",
+    "expected": "abstain"
+  },
+  {
+    "question": "What programming language was used to create this book?",
+    "expected": "abstain"
+  }
+]

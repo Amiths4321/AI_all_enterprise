@@ -1,0 +1,35 @@
+[
+  {
+    "question": "What is the main purpose of this document?",
+    "expected_parent_ids": [
+      "parent_14",
+      "parent_17"
+    ]
+  },
+  {
+    "question": "What does the book provide for construction drawings?",
+    "expected_parent_ids": [
+      "parent_17"
+    ]
+  },
+  {
+    "question": "How can the details be used during a project?",
+    "expected_parent_ids": [
+      "parent_15",
+      "parent_17"
+    ]
+  },
+  {
+    "question": "What information is included in the detail packages?",
+    "expected_parent_ids": [
+      "parent_19"
+    ]
+  },
+  {
+    "question": "What standards are referenced in the appendix?",
+    "expected_parent_ids": [
+      "parent_597",
+      "parent_591"
+    ]
+  }
+]

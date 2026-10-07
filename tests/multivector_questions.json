@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Who is this handbook intended for?",
+    "expected_parent_ids": ["parent_14"]
+  },
+  {
+    "question": "What is the main purpose of this document?",
+    "expected_parent_ids": ["parent_14", "parent_17"]
+  },
+  {
+    "question": "What kind of information does the book provide?",
+    "expected_parent_ids": ["parent_14", "parent_17"]
+  },
+  {
+    "question": "How can architects use the details in the handbook?",
+    "expected_parent_ids": ["parent_17", "parent_15"]
+  },
+  {
+    "question": "What is included in a detail information package?",
+    "expected_parent_ids": ["parent_19"]
+  },
+  {
+    "question": "What are the purposes of the design guidelines?",
+    "expected_parent_ids": ["parent_19"]
+  },
+  {
+    "question": "What information is provided about materials?",
+    "expected_parent_ids": ["parent_14", "parent_19"]
+  },
+  {
+    "question": "What standards are included in the appendix?",
+    "expected_parent_ids": ["parent_597", "parent_591"]
+  },
+  {
+    "question": "What organizations are listed in the trade association appendix?",
+    "expected_parent_ids": ["parent_597"]
+  },
+  {
+    "question": "How does the handbook help with construction drawings?",
+    "expected_parent_ids": ["parent_17"]
+  }
+]

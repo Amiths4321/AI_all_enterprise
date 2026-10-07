@@ -1,0 +1,18 @@
+[
+  {
+    "question": "What is the main purpose of this document?",
+    "reference": "The book provides a convenient source of construction detailing and specification information."
+  },
+  {
+    "question": "What does the book provide for construction drawings?",
+    "reference": "It provides ready-to-use information about critical building details for producing construction drawings."
+  },
+  {
+    "question": "Who is the book intended for?",
+    "reference": "Architects, interior designers, contractors, and students."
+  },
+  {
+    "question": "What information is included in the detail packages?",
+    "reference": "Design guidelines, limitations, coordination information, likely failure points, and material and installation requirements."
+  }
+]

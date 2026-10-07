@@ -1,0 +1,21 @@
+{
+  "environment": "production",
+  "retrieval": {
+    "top_k": 10
+  },
+  "reranking": {
+    "top_n": 3,
+    "model": "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  },
+  "generation": {
+    "timeout": 120
+  },
+  "performance": {
+    "cache_ttl_seconds": 60,
+    "cache_max_size": 1000
+  },
+  "slo": {
+    "max_error_rate": 0.01,
+    "max_average_latency_ms": 3000
+  }
+}

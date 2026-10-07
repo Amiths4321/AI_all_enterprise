@@ -1,0 +1,35 @@
+@'
+# Retrieval Benchmark
+
+This directory contains evaluation data for the enterprise RAG system.
+
+## Systems
+
+### Parent-Child
+- Retrieve child chunks
+- Aggregate by parent
+- Rank parents
+- Cross-encoder reranking
+
+### Multi-Vector
+- Retrieve generated representations
+- Aggregate representations by parent
+- Cross-encoder reranking
+
+## Metrics
+
+### Recall@1
+Whether the expected parent appears at rank 1.
+
+### Recall@3
+Whether the expected parent appears in the top 3.
+
+### MRR
+Mean Reciprocal Rank.
+
+## Target
+
+The goal is not to maximize complexity.
+
+The goal is to determine whether Multi-Vector Retrieval actually improves retrieval quality over Parent-Child Retrieval.
+'@ | Set-Content tests\README.md

@@ -1,0 +1,390 @@
+{
+  "timestamp": "2026-10-06T09:53:42.257128",
+  "questions": 10,
+  "parent_child": {
+    "recall_at_1": 0.4,
+    "recall_at_3": 0.8,
+    "mrr": 0.645
+  },
+  "multi_vector": {
+    "recall_at_1": 0.4,
+    "recall_at_3": 0.5,
+    "mrr": 0.475
+  },
+  "details": [
+    {
+      "question": "Who is this handbook intended for?",
+      "expected": [
+        "parent_14"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_14",
+          "parent_0",
+          "parent_25",
+          "parent_17",
+          "parent_15",
+          "parent_19",
+          "parent_612",
+          "parent_16",
+          "parent_606",
+          "parent_3"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_17",
+          "parent_25",
+          "parent_25",
+          "parent_14",
+          "parent_20"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.25
+      }
+    },
+    {
+      "question": "What is the main purpose of this document?",
+      "expected": [
+        "parent_14",
+        "parent_17"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_334",
+          "parent_14",
+          "parent_15",
+          "parent_597",
+          "parent_17",
+          "parent_591",
+          "parent_19",
+          "parent_610",
+          "parent_593",
+          "parent_20"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 1,
+        "reciprocal_rank": 0.5
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_17",
+          "parent_20",
+          "parent_25",
+          "parent_25",
+          "parent_27",
+          "parent_4",
+          "parent_7"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      }
+    },
+    {
+      "question": "What kind of information does the book provide?",
+      "expected": [
+        "parent_14",
+        "parent_17"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_20",
+          "parent_14",
+          "parent_15",
+          "parent_21",
+          "parent_2",
+          "parent_17",
+          "parent_3",
+          "parent_16",
+          "parent_19"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 1,
+        "reciprocal_rank": 0.5
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_1",
+          "parent_20",
+          "parent_27",
+          "parent_15",
+          "parent_3"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.0
+      }
+    },
+    {
+      "question": "How can architects use the details in the handbook?",
+      "expected": [
+        "parent_17",
+        "parent_15"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_14",
+          "parent_0",
+          "parent_25",
+          "parent_17",
+          "parent_27",
+          "parent_612",
+          "parent_436",
+          "parent_256",
+          "parent_100",
+          "parent_417"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.25
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_17",
+          "parent_0",
+          "parent_0",
+          "parent_14"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      }
+    },
+    {
+      "question": "What is included in a detail information package?",
+      "expected": [
+        "parent_19"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_19",
+          "parent_14",
+          "parent_17",
+          "parent_15",
+          "parent_519",
+          "parent_0",
+          "parent_25",
+          "parent_337",
+          "parent_20",
+          "parent_404"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_20",
+          "parent_25",
+          "parent_25",
+          "parent_14",
+          "parent_17",
+          "parent_15",
+          "parent_7",
+          "parent_27",
+          "parent_4",
+          "parent_8"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.0
+      }
+    },
+    {
+      "question": "What are the purposes of the design guidelines?",
+      "expected": [
+        "parent_19"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_88",
+          "parent_19",
+          "parent_17",
+          "parent_62",
+          "parent_38",
+          "parent_243",
+          "parent_74",
+          "parent_91",
+          "parent_58",
+          "parent_92"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 1,
+        "reciprocal_rank": 0.5
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_20",
+          "parent_19",
+          "parent_14",
+          "parent_17",
+          "parent_22",
+          "parent_25",
+          "parent_25",
+          "parent_13"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 1,
+        "reciprocal_rank": 0.5
+      }
+    },
+    {
+      "question": "What information is provided about materials?",
+      "expected": [
+        "parent_14",
+        "parent_19"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_14",
+          "parent_415",
+          "parent_19",
+          "parent_295",
+          "parent_424",
+          "parent_394",
+          "parent_383",
+          "parent_328",
+          "parent_482",
+          "parent_17"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_14",
+          "parent_19",
+          "parent_0",
+          "parent_7",
+          "parent_20",
+          "parent_27",
+          "parent_15",
+          "parent_13"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      }
+    },
+    {
+      "question": "What standards are included in the appendix?",
+      "expected": [
+        "parent_597",
+        "parent_591"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_593",
+          "parent_597",
+          "parent_589",
+          "parent_15",
+          "parent_12",
+          "parent_606",
+          "parent_591",
+          "parent_601",
+          "parent_20",
+          "parent_595"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 1,
+        "reciprocal_rank": 0.5
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_20",
+          "parent_15",
+          "parent_24",
+          "parent_22",
+          "parent_4",
+          "parent_21",
+          "parent_7",
+          "parent_13",
+          "parent_9",
+          "parent_18"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.0
+      }
+    },
+    {
+      "question": "What organizations are listed in the trade association appendix?",
+      "expected": [
+        "parent_597"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_589",
+          "parent_609",
+          "parent_606",
+          "parent_607",
+          "parent_597",
+          "parent_593",
+          "parent_12",
+          "parent_601",
+          "parent_603",
+          "parent_605"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.2
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_22",
+          "parent_24",
+          "parent_20",
+          "parent_7",
+          "parent_15",
+          "parent_4",
+          "parent_18",
+          "parent_9"
+        ],
+        "recall_at_1": 0,
+        "recall_at_3": 0,
+        "reciprocal_rank": 0.0
+      }
+    },
+    {
+      "question": "How does the handbook help with construction drawings?",
+      "expected": [
+        "parent_17"
+      ],
+      "parent_child": {
+        "retrieved": [
+          "parent_17",
+          "parent_14",
+          "parent_0",
+          "parent_25",
+          "parent_15",
+          "parent_19",
+          "parent_612",
+          "parent_3",
+          "parent_27",
+          "parent_256"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      },
+      "multi_vector": {
+        "retrieved": [
+          "parent_17",
+          "parent_14",
+          "parent_25",
+          "parent_25",
+          "parent_18"
+        ],
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "reciprocal_rank": 1.0
+      }
+    }
+  ]
+}
